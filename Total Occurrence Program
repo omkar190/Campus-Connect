@@ -1,0 +1,35 @@
+/*C program to print occurrence of each digits(0-9) using function.*/
+ 
+#include <stdio.h>
+ 
+/*function to get occurrence of a digit in a number*/
+int findOccurrence(int num,int dig)
+{
+    int rem, cnt;
+  
+    cnt=0;
+    while(num>0)
+    {
+        rem=num%10;
+        if(rem==dig)
+            cnt++;
+        num/=10;
+    }    
+    return cnt;
+}
+  
+int main()
+{
+    int num, digit, cnt;
+  
+    printf("Enter a number: ");
+    scanf("%d",&num);
+    printf("Enter digit to search: ");
+    scanf("%d",&digit);
+  
+    cnt=findOccurrence(num,digit);
+     
+    printf("Total occurrence of digit is: %d in number: %d.",cnt,num);
+      
+    return 0;
+}
