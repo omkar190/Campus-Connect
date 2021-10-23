@@ -1,0 +1,75 @@
+import re 
+
+ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+
+tens = ["", "", "Twenty", "Thirty", "Fourty","Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+
+suffixes = ["", "Thousand", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion", "Sextillion", "Septillion", "Octillion", "Nonillion", "Decillion", "Undecillion","Duodecillion","Tredecillion", "Quattuordecillion","Quindecillion","Sedecillion","Septendecillion","Octodecillion","Novemdecillion","Vigintillion","Unvigintillion","Duovigintillion","Trevigintillion","Quattourvigintillion","Quinvigintillion","Hexvigintillion","Septenvigintillion","Octovigintillion","Novemvigintillion","Trigintillion","Untrigintillion","Duotrigintillion"]
+
+#function to convert 3 digit numbers into words
+def num_to_words(num):
+    str = ""
+    if num > 99:
+        str += ones[num//100] + "Hundred" 
+    if num % 100 < 20:
+        str += ones[num % 100]
+    else:
+        num %= 100
+        str += tens[num//10]
+        num %= 10
+        str += ones[num]
+    return re.sub(r"(\w)([A-Z])", r"\1 \2", str)
+
+def main(number):
+    if number == 0:
+        return "Zero"
+        
+    #dividing number in 100s each and appeding to list : 123456 => [456, 123]
+    splitted_num_list = []
+    while number != 0:
+        splitted_num_list.append(number% 1000)
+        number = number // 1000
+
+    #converting each num to its word =>['Four Hundred Fifty Six', 'One Hundred Twenty Three']
+    num_word_list = list(map(num_to_words, splitted_num_list))
+
+    #adding appropriate suffixes(million,billion,..) to numbers 
+    add_suffix = lambda num_word: num_word[1] + " " + suffixes[num_word[0]] if num_word_list[num_word[0]] else ""
+
+    num_word_list = list(map(add_suffix, enumerate(num_word_list)))
+    num_word_list.reverse()
+
+    #adding words together from list
+    number_in_words = ""
+    for word in num_word_list:
+        number_in_words += word + " " 
+
+    return number_in_words
+
+number = int(input("Enter a number: "))
+print(main(number))
+
+#test cases
+#print(main(0))
+#print(main(1))
+#print(main(10))
+#print(main(11))
+#print(main(20))
+#print(main(56))
+#print(main(99))
+#print(main(100))
+#print(main(101))
+#print(main(156))
+#print(main(999))
+#print(main(1000))
+#print(main(1001))
+#print(main(9999))
+#print(main(10000))
+#print(main(100000))
+#print(main(1000000))
+#print(main(10000000))
+#print(main(100000000))
+#print(main(1000000000))
+#print(main(10000000000))
+#print(main(947674727787521))
+#print(main(1252623634754768568))
